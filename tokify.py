@@ -21,7 +21,7 @@ def getTrending():
 
 
 def getTok(id):
-
+    pass
 
 
 
