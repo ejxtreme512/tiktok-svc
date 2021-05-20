@@ -12,13 +12,13 @@ api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True, 
 # dict_keys(['id', 'desc', 'createTime', 'video', 'author', 'music', 'challenges', 'stats', 'duetInfo', 'originalItem', 'officalItem', 'textExtra', 'secret', 'forFriend', 'digged', 'itemCommentStatus', 'showNotPass', 'vl1', 'itemMute', 'authorStats', 'privateItem', 'duetEnabled', 'stitchEnabled', 'shareEnabled', 'isAd'])
 
 
-# for tok in tiktoks:
-#     print(tok['id'])
+
 
 def getTrending():
     tiktoks = api.trending()
-    print(tiktoks[0].keys())
-
+    #print(tiktoks[0].keys())
+    for tiktok in tiktoks:
+        print(tiktok['author']['uniqueId'])
 
 def getTok(id):
     pass
