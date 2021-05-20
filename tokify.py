@@ -17,16 +17,13 @@ api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True, 
 
 def getTrending():
     tiktoks = api.trending()
-    print(tiktoks[0].keys())
+    return tiktoks
 
 
 def getTok(id):
     pass
 
 
-
 if __name__ == "__main__":
     params = {}
     getTrending()
-
-
