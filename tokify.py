@@ -1,5 +1,5 @@
 from TikTokApi import TikTokApi
-from flask import Flask
+from flask import Flask, render_template
 
 import string
 import random
@@ -9,9 +9,9 @@ import requests
 app = Flask(__name__)
 
 
-@app.route('/trending')
-def trending_videos():
-    return tiktoks
+@app.route('/creator')
+def creator():
+    return render_template('home.html')
 
 
 
