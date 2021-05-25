@@ -1,21 +1,11 @@
 from TikTokApi import TikTokApi
-from flask import Flask, render_template
 
 import string
 import random
 import requests
 
 
-app = Flask(__name__)
-
-
-@app.route('/creator')
-def creator():
-    return render_template('home.html')
-
-
-
-verifyFp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
+verifyFp = 'verify_kp3dk3o5_vO4w3sVy_2RCe_4SqH_BBuY_VINzWCvoX0GN'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
 
@@ -27,7 +17,7 @@ def get_trending():
     tiktoks = api.trending()
     return tiktoks
 
-
+    
 def get_video_by_tiktok(tiktok):
     video_bytes = api.get_video_by_tiktok(tiktok)
     with open('tiktok_' + tiktok['id']+ '.mp4', 'wb') as o:
@@ -47,4 +37,6 @@ def get_tiktok_s_v_web_id():
 
 if __name__ == "__main__":
     params = {}
-    app.run(debug=True)
+    trending = get_trending()
+    first_tiktok = trending[0]
+    get_video_by_tiktok(first_tiktok)
