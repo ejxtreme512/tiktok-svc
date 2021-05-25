@@ -8,10 +8,9 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/')
 
 @app.route('/trending')
-def trending():
+def trending_videos():
     return tiktoks
 
 
@@ -43,10 +42,9 @@ def get_tiktok_s_v_web_id():
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
     }
     session = requests.Session()
-    response = session.get('http://www.tiktok.com'), headers=headers
+    response = session.get('http://www.tiktok.com')
     print(session.cookies.get_dict())
 
 if __name__ == "__main__":
     params = {}
-    print(get_tiktok_s_v_web_id())
     app.run(debug=True)
