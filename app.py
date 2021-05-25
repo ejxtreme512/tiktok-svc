@@ -1,13 +1,12 @@
-from tokify import get_trending
+from tokify import trending
 from flask import Flask
-
 
 app = Flask(__name__)
 
 
 @app.route('/trending')
-def trending():
-    return get_trending()
+def get_trending():
+    return trending()
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=False)
