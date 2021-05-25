@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/trending')
 def trending():
-    return ('TikTok trending videos')
+    return tiktoks
 
 
 
@@ -49,3 +49,4 @@ def get_tiktok_s_v_web_id():
 if __name__ == "__main__":
     params = {}
     print(get_tiktok_s_v_web_id())
+    get.app()
