@@ -6,6 +6,16 @@ import random
 import requests
 
 
+app = Flask(__name__)
+
+@app.route('/')
+
+@app.route('/trending')
+def trending():
+    return ('TikTok trending videos')
+
+
+
 verifyFp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
