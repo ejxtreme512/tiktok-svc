@@ -49,4 +49,4 @@ def get_tiktok_s_v_web_id():
 if __name__ == "__main__":
     params = {}
     print(get_tiktok_s_v_web_id())
-    get.app()
+    app.run(debug=True)
