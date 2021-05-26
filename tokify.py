@@ -20,10 +20,12 @@ def tiktok_by_id(id):
 
 # This is a list of dictionaries. Each dictionary contains dict_keys(['id', 'desc', 'createTime', 'video', 'author', 'music', 'challenges', 'stats', 'duetInfo', 'originalItem', 'officalItem', 'textExtra', 'secret', 'forFriend', 'digged', 'itemCommentStatus', 'showNotPass', 'vl1', 'itemMute', 'authorStats', 'privateItem', 'duetEnabled', 'stitchEnabled', 'shareEnabled', 'isAd'])
 def trending():
+    # Return a list of trending tiktoks
     return api.trending()
 
 
 def video_by_id(id):
+    # Given an Id, return a downloadable tiktok mp4 file
     print('video by id')
     tiktok = tiktok_by_id(id)
     return video_by_tiktok(tiktok['itemInfo']['itemStruct'])
