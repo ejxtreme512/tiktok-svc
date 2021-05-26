@@ -1,17 +1,19 @@
-import random
-import io
 import string
-from TikTokApi import TikTokApi
+import io
+import random
+
 from gevent import monkey
 monkey.patch_all()
+from TikTokApi import TikTokApi
 
 
-verifyFp = 'verify_kp3dk3o5_vO4w3sVy_2RCe_4SqH_BBuY_VINzWCvoX0GN'
+
+verifyFp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
 
 api = TikTokApi.get_instance(
-    custom_verifyFp=verifyFp, use_test_endpoints=True, custom_did='')
+    custom_verifyFp=verifyFp, use_test_endpoints=True, custom_did=did)
 
 
 def tiktok_by_id(id):
