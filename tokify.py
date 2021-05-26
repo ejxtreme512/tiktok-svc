@@ -1,6 +1,8 @@
-from TikTokApi import TikTokApi
 from gevent import monkey
 monkey.patch_all()
+
+from TikTokApi import TikTokApi
+
 import string
 import random
 
@@ -10,7 +12,7 @@ did = ''.join(random.choice(string.digits) for num in range(10))
 
 
 api = TikTokApi.get_instance(
-    custom_verifyFp=verifyFp, use_test_endpoints=True, custom_did=did)
+    custom_verifyFp=verifyFp, use_test_endpoints=True, custom_did='')
 
 # dict_keys(['id', 'desc', 'createTime', 'video', 'author', 'music', 'challenges', 'stats', 'duetInfo', 'originalItem', 'officalItem', 'textExtra', 'secret', 'forFriend', 'digged', 'itemCommentStatus', 'showNotPass', 'vl1', 'itemMute', 'authorStats', 'privateItem', 'duetEnabled', 'stitchEnabled', 'shareEnabled', 'isAd'])
 def trending():
