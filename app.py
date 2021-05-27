@@ -1,5 +1,6 @@
-from tokify import trending, video_by_id
 from flask import Flask, jsonify
+from flask.helpers import send_file
+from tokify import trending, video_by_id
 
 app = Flask(__name__)
 
@@ -11,6 +12,8 @@ def get_trending():
 
 @app.route('/download/<id>')
 def get_video_by_id(id):
-    return video_by_id(id)
-if __name__=='__main__':
+    return send_file(video_by_id(id), attachment_filename="tiktok_" + id + ".mp4", as_attachment=True, mimetype='video/mp4')
+
+
+if __name__ == '__main__':
     app.run(debug=False)
