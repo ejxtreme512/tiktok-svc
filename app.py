@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
 from flask.helpers import send_file
+from flask_cors import CORS
 from tokify import tiktok_by_id, trending, video_by_id
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/trending')
