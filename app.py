@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask.helpers import send_file
 from flask_cors import CORS
-from tokify import tiktok_by_id, trending, video_by_id
+from tokify import tiktok_by_id, tiktoks_by_user, trending, video_by_id
 
 app = Flask(__name__)
 CORS(app)
@@ -11,14 +11,10 @@ CORS(app)
 def get_trending():
     return jsonify(trending())
 
-<<<<<<< Updated upstream
-=======
+
 @app.route('/username/<user>')
-def get_tiktok_by_user(user):   
+def get_tiktok_by_user(user):
     return jsonify(tiktoks_by_user(user))
-
->>>>>>> Stashed changes
-
 @app.route('/download/<id>')
 def get_video_by_id(id):
     return send_file(video_by_id(id), attachment_filename="tiktok_" + id + ".mp4", as_attachment=True, mimetype='video/mp4')
