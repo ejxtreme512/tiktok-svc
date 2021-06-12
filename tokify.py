@@ -8,12 +8,12 @@ from TikTokApi import TikTokApi
 
 
 
-verifyFp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
+verifyFp = 'verify_kpomzw4d_aUN9f4zp_j2tw_4Ujv_82bg_UbxY6yQiPFUH'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
 
 api = TikTokApi.get_instance(
-    custom_verifyFp=verifyFp, use_test_endpoints=True, custom_did=did)
+    custom_verifyFp=verifyFp, use_test_endpoints=False, custom_did=did)
 
 
 def tiktok_by_id(id):
@@ -42,6 +42,11 @@ def video_by_tiktok(tiktok):
     return mem
 
 
+def tiktoks_by_user(username):
+    count = 30
+    tiktoks = api.byUsername(username, count=count)
+    return tiktoks 
+
 # def get_tiktok_s_v_web_id():
 #     headers = {
 #         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
@@ -50,8 +55,8 @@ def video_by_tiktok(tiktok):
 #     response = session.get('http://www.tiktok.com')
 #     print(session.cookies.get_dict())
 
-# if __name__ == "__main__":
-#     params = {}
-#     trending_tiktoks = trending()
-#     first_tiktok = trending_tiktoks[0]
-#     get_video_by_id(first_tiktok['id'])
+
+if __name__ == "__main__":
+    user_videos = tiktoks_by_user('abbieherbert_')
+    print(user_videos)
+    
