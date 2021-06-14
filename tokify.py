@@ -7,7 +7,7 @@ import random
 from TikTokApi import TikTokApi
 
 
-custom_verify_fp = 'verify_kpomzw4d_aUN9f4zp_j2tw_4Ujv_82bg_UbxY6yQiPFUH'
+custom_verify_fp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
 
@@ -21,9 +21,9 @@ def tiktoks_by_user(username, count=30):
     return api.by_username(username, count=count)
 
 
-def trending():
+def trending(count=30):
     # Return a list of trending tiktoks
-    return api.trending()
+    return api.trending(count=count)
 
 
 def video_by_id(id):

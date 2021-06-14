@@ -11,6 +11,7 @@ CORS(app)
 def get_trending():
     return jsonify(trending())
 
+
 @app.route('/username/<user>')
 def get_tiktok_by_user(user):
     return jsonify(tiktoks_by_user(user))
