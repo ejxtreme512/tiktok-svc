@@ -1,27 +1,24 @@
+from TikTokApi import TikTokApi
+import random
+import io
+import string
 from gevent import monkey
 monkey.patch_all()
-
-import string
-import io
-import random
-from TikTokApi import TikTokApi
 
 
 custom_verify_fp = 'verify_kow9scyc_MbZkKA9W_IyVN_4KoG_Bbs3_dOiZmXemrTz3'
 did = ''.join(random.choice(string.digits) for num in range(10))
 
 
-api = TikTokApi.get_instance(custom_verifyFp=custom_verify_fp, use_test_endpoints=False, custom_did=did)
-
-def tiktok_by_id(id):
-    return api.get_tiktok_by_id(id)
+api = TikTokApi.get_instance(
+    custom_verifyFp=custom_verify_fp, use_test_endpoints=False, custom_did=did)
 
 
 def tiktoks_by_user(username, count=30):
     return api.by_username(username, count=count)
 
 
-def trending(count=30):
+def tiktoks_by_trending(count=30):
     # Return a list of trending tiktoks
     return api.trending(count=count)
 
@@ -40,6 +37,14 @@ def video_by_tiktok(tiktok):
     mem.write(video_bytes)
     mem.seek(0)
     return mem
+
+
+def user_by_username(user):
+    return api.get_user(user)
+
+
+def tiktok_by_id(id):
+    return api.get_tiktok_by_id(id)
 
 
 # def get_tiktok_s_v_web_id():
