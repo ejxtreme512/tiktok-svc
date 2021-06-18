@@ -7,21 +7,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/tiktoks/trending')
-def get_trending():
-    return jsonify(tiktoks_by_trending())
-
-
-@app.route('/tiktoks/<user>')
-def get_trending(user):
-    return jsonify(tiktoks_by_user(user))
-
-
-@app.route('/users/<<user>')
-def get_user_by_username(user):
-    return user_by_username(user)
-
-
 @app.route('/download/<id>')
 def get_video_by_id(id):
     return send_file(video_by_id(id), attachment_filename="tiktok_" + id + ".mp4", as_attachment=True, mimetype='video/mp4')
@@ -30,6 +15,21 @@ def get_video_by_id(id):
 @app.route('/info/<id>')
 def get_tiktok_by_id(id):
     return jsonify(tiktok_by_id(id))
+
+
+@app.route('/tiktoks/trending')
+def get_trending():
+    return jsonify(tiktoks_by_trending())
+
+
+@app.route('/tiktoks/<user>')
+def get_tiktoks_by_user(user):
+    return jsonify(tiktoks_by_user(user))
+
+
+@app.route('/users/<user>')
+def get_user_by_username(user):
+    return user_by_username(user)
 
 
 if __name__ == '__main__':
