@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask.helpers import send_file
+from flask import request
 from flask_cors import CORS
 from tokify import user_by_username, tiktok_by_id, tiktoks_by_user, tiktoks_by_trending, video_by_id
 
@@ -19,7 +20,9 @@ def get_tiktok_by_id(id):
 
 @app.route('/tiktoks/trending')
 def get_trending():
-    return jsonify(tiktoks_by_trending())
+    count = int(request.args.get('count'))
+    print('TRENDING', count)
+    return jsonify(tiktoks_by_trending(count))
 
 
 @app.route('/tiktoks/<user>')
