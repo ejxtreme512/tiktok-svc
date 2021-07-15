@@ -8,18 +8,20 @@ FAVORITES = 'FAVORITES'
 
 def add_favorite_to_list(user_id, list_id, tiktok_id):
     execute_query(generate_insert_query(
-        USER_FAVORITES, (user_id, list_id, tiktok_id)))
+        FAVORITES, (user_id, list_id, tiktok_id)))
 
 
-def add_user_to_users(user_id, first_name, last_name):
-    pass
+def add_user_to_users(user_id, email, first_name, last_name):
+    execute_query(generate_insert_query(
+        USERS, (user_id, None, email, first_name, last_name)))
 
 
-def create_favorites_list(user_id, list_name):
-    pass
+def add_favorites_list(user_id, list_name):
+    execute_query(generate_insert_query(
+        USER_FAVORITES, (user_id, list_name)))
 
 
-def get_favorites_list_by_user_id():
+def get_user_favorites_list():
     pass
 
 
@@ -64,7 +66,7 @@ def buildDataBase():
             ('first_name', 'STRING'),
             ('last_name', 'STRING')
         ]),
-        ('FAVORITES', [
+        (FAVORITES, [
             ('user_id', 'INTEGER'),
             ('list_id',	'INTEGER'),
             ('tiktok_id', 'INTEGER')
