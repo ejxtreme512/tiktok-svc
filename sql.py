@@ -11,14 +11,14 @@ def add_tiktok_to_favorites_list(user_id, list_id, tiktok_id):
         FAVORITES, (user_id, list_id, tiktok_id)), {})
 
 
-def add_user_to_users(user_id, email, first_name, last_name):
+def add_user_to_users(email, first_name, last_name):
     execute_query(generate_insert_query(
-        USERS, (user_id, None, email, first_name, last_name)))
+        USERS, (email, first_name, last_name, None)))
 
 
-def add_user_favorites_list(user_id, list_id, list_name):
+def add_user_favorites_list(user_id, list_name):
     execute_query(generate_insert_query(
-        USER_FAVORITES, (user_id, list_id, list_name)), {})
+        USER_FAVORITES, (user_id, list_name)), {})
 
 
 def get_favorite_items_by_list_id(id):
@@ -62,11 +62,16 @@ def execute_queries(queries):
 def generate_create_query(name, fields):
     my_query = f"Create table {name} ("
     for i, item in enumerate(fields):
-        new_phrase = (f"{item[0]} {item[1]}")
+        colName, colType, colConnection, foreignTable = item
+        if colConnection == 'FOREIGN':
+            new_phrase = (f"FOREIGN KEY({colName}) REFERENCES {foreignTable}({colType})")
+        else:
+            new_phrase = (f"{colName} {colType}")
         if i != len(fields) - 1:
             new_phrase += ","
         my_query = my_query + new_phrase
     my_query = my_query + ")"
+    print(my_query)
     return my_query
 
 
@@ -76,33 +81,32 @@ def generate_insert_query(table_name, values):
 
 def buildDataBase():
     tables = [
-        (USER_FAVORITES, [
-            ('user_id', 'INTEGER'),
-            ('list_id', 'INTEGER'),
-            ('list_name', 'STRING'),
-        ]),
         (USERS, [
-            ('user_id', 'INTEGER'),
-            ('last_login', 'INTEGER'),
-            ('email', 'STRING'),
-            ('first_name', 'STRING'),
-            ('last_name', 'STRING')
+            ('user_id', 'INTEGER PRIMARY KEY', None, None),
+            ('last_login', 'INTEGER', None, None),
+            ('email', 'STRING', None, None),
+            ('first_name', 'STRING', None, None),
+            ('last_name', 'STRING', None, None)
+        ]),
+        (USER_FAVORITES, [
+            ('list_id', 'INTEGER PRIMARY KEY', None, None),
+            ('user_id', 'INTEGER', 'FOREIGN', USERS),
+            ('list_name', 'STRING', None, None),
         ]),
         (FAVORITES, [
-            ('user_id', 'INTEGER'),
-            ('list_id',	'INTEGER'),
-            ('tiktok_id', 'INTEGER')
+            ('user_id', 'INTEGER', None, None),
+            ('list_id',	'INTEGER', None, None),
+            ('tiktok_id', 'INTEGER', None, None)
         ])
     ]
     queries = []
     for table_name, table_fields in tables:
         table_create_query = generate_create_query(table_name, table_fields)
         queries.append([table_create_query, {}])
-    execute_queries(queries)
+    # execute_queries(queries)
 
 
 if __name__ == "__main__":
     # add_user_favorites_list(2, 30, 'testABC')
     # add_tiktok_to_favorites_list(1,100, 3420)
-    print(get_favorite_items_by_list_id(30))
-    print(get_favorites_list_by_user_id(2))
+    buildDataBase()
