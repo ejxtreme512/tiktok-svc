@@ -53,6 +53,7 @@ def execute_queries(queries):
     results = []
     with closing(sqlite3.connect('tokifydb.db')) as connection:
         with connection:
+            connection.execute("PRAGMA foreign_keys = 1")
             for query, parameters in queries:
                 result = connection.execute(query, parameters)
                 results.append(result.fetchall())
@@ -60,18 +61,17 @@ def execute_queries(queries):
 
 
 def generate_create_query(name, fields):
+    foreigns = []
     my_query = f"Create table {name} ("
     for i, item in enumerate(fields):
         colName, colType, colConnection, foreignTable = item
+        new_phrase = (f"{colName} {colType}")
         if colConnection == 'FOREIGN':
-            new_phrase = (f"FOREIGN KEY({colName}) REFERENCES {foreignTable}({colType})")
-        else:
-            new_phrase = (f"{colName} {colType}")
+            foreigns.append(f", FOREIGN KEY({colName}) REFERENCES {foreignTable}({colName})")
         if i != len(fields) - 1:
             new_phrase += ","
         my_query = my_query + new_phrase
-    my_query = my_query + ")"
-    print(my_query)
+    my_query = my_query + ','.join(foreigns) + ")"
     return my_query
 
 
@@ -90,20 +90,20 @@ def buildDataBase():
         ]),
         (USER_FAVORITES, [
             ('list_id', 'INTEGER PRIMARY KEY', None, None),
-            ('user_id', 'INTEGER', 'FOREIGN', USERS),
             ('list_name', 'STRING', None, None),
+            ('user_id', 'INTEGER', 'FOREIGN', USERS),
         ]),
         (FAVORITES, [
-            ('user_id', 'INTEGER', None, None),
-            ('list_id',	'INTEGER', None, None),
-            ('tiktok_id', 'INTEGER', None, None)
+            ('tiktok_id', 'INTEGER', None, None),
+            ('list_id',	'INTEGER', 'FOREIGN', USER_FAVORITES),
+            ('user_id', 'INTEGER', 'FOREIGN', USERS),
         ])
     ]
     queries = []
     for table_name, table_fields in tables:
         table_create_query = generate_create_query(table_name, table_fields)
         queries.append([table_create_query, {}])
-    # execute_queries(queries)
+    execute_queries(queries)
 
 
 if __name__ == "__main__":
