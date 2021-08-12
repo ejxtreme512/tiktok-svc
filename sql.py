@@ -71,8 +71,9 @@ def generate_create_query(name, fields):
         if i != len(fields) - 1:
             new_phrase += ","
         my_query = my_query + new_phrase
-    my_query = my_query + ',' + ','.join(foreigns) + ")"
-    print(my_query)
+    if foreigns:
+        my_query = my_query + ',' + ','.join(foreigns)
+    my_query += ")"
     return my_query
 
 
