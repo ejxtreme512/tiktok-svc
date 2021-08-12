@@ -11,9 +11,9 @@ def add_tiktok_to_favorites_list(user_id, list_id, tiktok_id):
         FAVORITES, (user_id, list_id, tiktok_id)), {})
 
 
-def add_user_to_users(email, first_name, last_name):
+def add_user_to_users(email, last_name, first_name, last_login):
     execute_query(generate_insert_query(
-        USERS, (email, first_name, last_name, None)))
+        USERS, (email, last_name, first_name, last_login), ("email", "last_name", "first_name", "last_login")), {})
 
 
 def add_user_favorites_list(user_id, list_name):
@@ -77,18 +77,21 @@ def generate_create_query(name, fields):
     return my_query
 
 
-def generate_insert_query(table_name, values):
-    return f"INSERT INTO {table_name} VALUES {values}"
+def generate_insert_query(table_name, values, columns):
+    insert = f"INSERT INTO {table_name}"
+    if columns: 
+        insert += f"({','.join(columns)})"
+    return insert + f" VALUES {values}"
 
 
 def buildDataBase():
     tables = [
         (USERS, [
             ('user_id', 'INTEGER PRIMARY KEY', None, None),
-            ('last_login', 'INTEGER', None, None),
             ('email', 'STRING', None, None),
+            ('last_name', 'STRING', None, None),
             ('first_name', 'STRING', None, None),
-            ('last_name', 'STRING', None, None)
+            ('last_login', 'INTEGER', None, None),
         ]),
         (USER_FAVORITES, [
             ('list_id', 'INTEGER PRIMARY KEY', None, None),
@@ -106,9 +109,3 @@ def buildDataBase():
         table_create_query = generate_create_query(table_name, table_fields)
         queries.append([table_create_query, {}])
     execute_queries(queries)
-
-
-if __name__ == "__main__":
-    # add_user_favorites_list(2, 30, 'testABC')
-    # add_tiktok_to_favorites_list(1,100, 3420)
-    buildDataBase()
