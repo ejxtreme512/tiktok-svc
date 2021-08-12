@@ -62,16 +62,17 @@ def execute_queries(queries):
 
 def generate_create_query(name, fields):
     foreigns = []
-    my_query = f"Create table {name} ("
+    my_query = f'Create table "{name}" ('
     for i, item in enumerate(fields):
         colName, colType, colConnection, foreignTable = item
-        new_phrase = (f"{colName} {colType}")
+        new_phrase = (f'"{colName}" {colType}')
         if colConnection == 'FOREIGN':
-            foreigns.append(f", FOREIGN KEY({colName}) REFERENCES {foreignTable}({colName})")
+            foreigns.append(f'FOREIGN KEY("{colName}") REFERENCES "{foreignTable}"("{colName}")')
         if i != len(fields) - 1:
             new_phrase += ","
         my_query = my_query + new_phrase
-    my_query = my_query + ','.join(foreigns) + ")"
+    my_query = my_query + ',' + ','.join(foreigns) + ")"
+    print(my_query)
     return my_query
 
 
