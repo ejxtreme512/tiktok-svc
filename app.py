@@ -24,7 +24,7 @@ def add_user():
 
 @app.route('/favorites/user/<id>', methods=['GET'])
 def get_user_favorites_list(id):
-    return get_favorites_list_by_user_id(id)
+    return jsonify(get_favorites_list_by_user_id(id))
 
 
 @app.route('/favorites/list', methods=['POST'])
@@ -36,7 +36,7 @@ def add_favorite_list():
 
 @app.route('/favorites/list/<id>', methods=['GET'])
 def get_favorites_list(id):
-    return get_favorite_list_items_by_list_id(id)
+    return jsonify(get_favorite_list_items_by_list_id(id))
 
 
 @app.route('/info/<id>')
