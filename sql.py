@@ -21,7 +21,7 @@ def add_user_favorites_list(user_id, list_name):
         USER_FAVORITES, (user_id, list_name), ("user_id", "list_name")), {})
 
 
-def get_favorite_items_by_list_id(id):
+def get_favorite_list_items_by_list_id(id):
     query = '''
         SELECT UF.user_id, UF.list_id, UF.list_name, F.tiktok_id
         FROM 

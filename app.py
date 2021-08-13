@@ -1,4 +1,4 @@
-from sql import add_user_favorites_list, add_user_to_users, get_favorite_items_by_list_id, get_favorites_list_by_user_id
+from sql import add_user_favorites_list, add_user_to_users, get_favorite_list_items_by_list_id, get_favorites_list_by_user_id
 from flask import Flask, jsonify
 from flask.helpers import send_file
 from flask import request
@@ -36,7 +36,7 @@ def add_favorite_list():
 
 @app.route('/favorites/list/<id>', methods=['GET'])
 def get_favorites_list(id):
-    return get_favorite_items_by_list_id(id)
+    return get_favorite_list_items_by_list_id(id)
 
 
 @app.route('/info/<id>')
