@@ -6,9 +6,9 @@ USERS = 'USERS'
 FAVORITES = 'FAVORITES'
 
 
-def add_tiktok_to_favorites_list(user_id, list_id, tiktok_id):
+def add_tiktok_to_favorites_list(tiktok_id, user_id, list_id):
     execute_query(generate_insert_query(
-        FAVORITES, (user_id, list_id, tiktok_id)), {})
+        FAVORITES, (tiktok_id, user_id, list_id)), {})
 
 
 def add_user_to_users(email, last_name, first_name, last_login):
@@ -18,7 +18,7 @@ def add_user_to_users(email, last_name, first_name, last_login):
 
 def add_user_favorites_list(user_id, list_name):
     execute_query(generate_insert_query(
-        USER_FAVORITES, (user_id, list_name)), {})
+        USER_FAVORITES, (user_id, list_name), ("user_id", "list_name")), {})
 
 
 def get_favorite_items_by_list_id(id):
