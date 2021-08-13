@@ -77,7 +77,7 @@ def generate_create_query(name, fields):
     return my_query
 
 
-def generate_insert_query(table_name, values, columns):
+def generate_insert_query(table_name, values, columns=None):
     insert = f"INSERT INTO {table_name}"
     if columns: 
         insert += f"({','.join(columns)})"
