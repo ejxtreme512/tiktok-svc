@@ -17,8 +17,8 @@ def get_video_by_id(id):
 @app.route('/favorites/user', methods=['POST'])
 def add_user():
     email = request.form.get('email')
-    last_name = request.form.get('last_name')
-    first_name = request.form.get('first_name')
+    last_name = request.form.get('lastName')
+    first_name = request.form.get('firstName')
     return add_user_to_users(email, last_name, first_name)
 
 
@@ -29,8 +29,8 @@ def get_user_favorites_list(id):
 
 @app.route('/favorites/list', methods=['POST'])
 def add_favorite_list():
-    user_id = request.form.get('user_id')
-    list_name = request.form.get('list_name')
+    user_id = request.form.get('userId')
+    list_name = request.form.get('listName')
     add_user_favorites_list(user_id, list_name)
 
 
