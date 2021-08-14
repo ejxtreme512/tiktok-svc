@@ -31,7 +31,7 @@ def get_user_favorites_list(id):
 def add_favorite_list():
     user_id = request.form.get('userId')
     list_name = request.form.get('listName')
-    add_user_favorites_list(user_id, list_name)
+    return jsonify(add_user_favorites_list(user_id, list_name))
 
 
 @app.route('/favorites/list/<id>', methods=['GET'])
