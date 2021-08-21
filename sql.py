@@ -67,7 +67,8 @@ def generate_create_query(name, fields):
         colName, colType, colConnection, foreignTable = item
         new_phrase = (f'"{colName}" {colType}')
         if colConnection == 'FOREIGN':
-            foreigns.append(f'FOREIGN KEY("{colName}") REFERENCES "{foreignTable}"("{colName}")')
+            foreigns.append(
+                f'FOREIGN KEY("{colName}") REFERENCES "{foreignTable}"("{colName}")')
         if i != len(fields) - 1:
             new_phrase += ","
         my_query = my_query + new_phrase
@@ -79,9 +80,22 @@ def generate_create_query(name, fields):
 
 def generate_insert_query(table_name, values, columns=None):
     insert = f"INSERT INTO {table_name}"
-    if columns: 
+    if columns:
         insert += f"({','.join(columns)})"
     return insert + f" VALUES {values}"
+
+
+def generate_update_query(table_name, values, condition):
+    update_statement = f"UPDATE {table_name} "
+    set_statement = ','.join([f"{col} = '{val}' " for col,val in values])
+    update_statement += f"SET {set_statement}"
+    update_statement += f"WHERE {condition}"
+    return update_statement
+
+
+def update_list_name(list_id, list_name):
+    values = [("list_name", list_name)]
+    return generate_update_query(FAVORITES, values)
 
 
 def buildDataBase():
@@ -109,3 +123,7 @@ def buildDataBase():
         table_create_query = generate_create_query(table_name, table_fields)
         queries.append([table_create_query, {}])
     execute_queries(queries)
+
+# if __name__ == "__main__":
+#     update = generate_update_query(USER_FAVORITES, [('list_name', 'abc123')], 'LIST_ID = 2')
+#     print(update)
