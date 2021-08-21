@@ -50,6 +50,11 @@ def add_favorites_list_item(id):
     user_id = request.form.get('user_id')
     return jsonify(add_tiktok_to_favorites_list(tiktok_id, id, user_id))
 
+@app.route('/favorites/list/<id>', methods=['DELETE'])
+def delete_favorites_list(id):
+    # return jsonify(delete_favorite_list_by_list_id(id))
+    pass
+
 
 @app.route('/info/<id>')
 def get_tiktok_by_id(id):
