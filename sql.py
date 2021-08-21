@@ -1,3 +1,4 @@
+from logging import log
 import sqlite3
 from contextlib import closing
 
@@ -58,6 +59,7 @@ def execute_queries(queries):
         with connection:
             connection.execute("PRAGMA foreign_keys = 1")
             for query, parameters in queries:
+                log(1, 'Execute query', query, parameters)
                 result = connection.execute(query, parameters)
                 results.append(result.fetchall())
     return results
@@ -122,7 +124,7 @@ def get_favorites_list_by_user_id(user_id):
 
 def update_list_name_by_list_id(list_id, list_name):
     values = [("list_name", list_name)]
-    return generate_update_query(FAVORITES, values, f"list_id = {list_id}")
+    return execute_query(generate_update_query(USER_FAVORITES, values, f"list_id = :listId"), {'listId': list_id})
 
 # if __name__ == "__main__":
 #     update = generate_update_query(USER_FAVORITES, [('list_name', 'abc123')], 'LIST_ID = 2')
