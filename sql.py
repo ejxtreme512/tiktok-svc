@@ -21,28 +21,31 @@ def add_user_favorites_list(user_id, list_name):
         USER_FAVORITES, (user_id, list_name), ("user_id", "list_name")), {})
 
 
-def get_favorite_list_items_by_list_id(id):
-    query = '''
-        SELECT UF.user_id, UF.list_id, UF.list_name, F.tiktok_id
-        FROM 
-            USER_FAVORITES AS UF,
-            FAVORITES AS F
-        WHERE UF.list_id = F.list_id
-        AND F.list_id = :id
-    '''
-    parameters = {'id': id}
-    return execute_query(query, parameters)
-
-
-def get_favorites_list_by_user_id(user_id):
-    query = '''
-        SELECT * 
-        FROM 
-            USER_FAVORITES AS UF
-        WHERE UF.user_id = :userId
-    '''
-    parameters = {'userId': user_id}
-    return execute_query(query, parameters)
+def buildDataBase():
+    tables = [
+        (USERS, [
+            ('user_id', 'INTEGER PRIMARY KEY', None, None),
+            ('email', 'STRING', None, None),
+            ('last_name', 'STRING', None, None),
+            ('first_name', 'STRING', None, None),
+            ('last_login', 'INTEGER', None, None),
+        ]),
+        (USER_FAVORITES, [
+            ('list_id', 'INTEGER PRIMARY KEY', None, None),
+            ('list_name', 'STRING', None, None),
+            ('user_id', 'INTEGER', 'FOREIGN', USERS),
+        ]),
+        (FAVORITES, [
+            ('tiktok_id', 'INTEGER', None, None),
+            ('list_id',	'INTEGER', 'FOREIGN', USER_FAVORITES),
+            ('user_id', 'INTEGER', 'FOREIGN', USERS),
+        ])
+    ]
+    queries = []
+    for table_name, table_fields in tables:
+        table_create_query = generate_create_query(table_name, table_fields)
+        queries.append([table_create_query, {}])
+    execute_queries(queries)
 
 
 def execute_query(query, parameters):
@@ -87,42 +90,39 @@ def generate_insert_query(table_name, values, columns=None):
 
 def generate_update_query(table_name, values, condition):
     update_statement = f"UPDATE {table_name} "
-    set_statement = ','.join([f"{col} = '{val}' " for col,val in values])
+    set_statement = ','.join([f"{col} = '{val}' " for col, val in values])
     update_statement += f"SET {set_statement}"
     update_statement += f"WHERE {condition}"
     return update_statement
 
 
-def update_list_name(list_id, list_name):
+def get_favorite_list_items_by_list_id(id):
+    query = '''
+        SELECT UF.user_id, UF.list_id, UF.list_name, F.tiktok_id
+        FROM 
+            USER_FAVORITES AS UF,
+            FAVORITES AS F
+        WHERE UF.list_id = F.list_id
+        AND F.list_id = :id
+    '''
+    parameters = {'id': id}
+    return execute_query(query, parameters)
+
+
+def get_favorites_list_by_user_id(user_id):
+    query = '''
+        SELECT * 
+        FROM 
+            USER_FAVORITES AS UF
+        WHERE UF.user_id = :userId
+    '''
+    parameters = {'userId': user_id}
+    return execute_query(query, parameters)
+
+
+def update_list_name_by_list_id(list_id, list_name):
     values = [("list_name", list_name)]
-    return generate_update_query(FAVORITES, values)
-
-
-def buildDataBase():
-    tables = [
-        (USERS, [
-            ('user_id', 'INTEGER PRIMARY KEY', None, None),
-            ('email', 'STRING', None, None),
-            ('last_name', 'STRING', None, None),
-            ('first_name', 'STRING', None, None),
-            ('last_login', 'INTEGER', None, None),
-        ]),
-        (USER_FAVORITES, [
-            ('list_id', 'INTEGER PRIMARY KEY', None, None),
-            ('list_name', 'STRING', None, None),
-            ('user_id', 'INTEGER', 'FOREIGN', USERS),
-        ]),
-        (FAVORITES, [
-            ('tiktok_id', 'INTEGER', None, None),
-            ('list_id',	'INTEGER', 'FOREIGN', USER_FAVORITES),
-            ('user_id', 'INTEGER', 'FOREIGN', USERS),
-        ])
-    ]
-    queries = []
-    for table_name, table_fields in tables:
-        table_create_query = generate_create_query(table_name, table_fields)
-        queries.append([table_create_query, {}])
-    execute_queries(queries)
+    return generate_update_query(FAVORITES, values, f"list_id = {list_id}")
 
 # if __name__ == "__main__":
 #     update = generate_update_query(USER_FAVORITES, [('list_name', 'abc123')], 'LIST_ID = 2')
