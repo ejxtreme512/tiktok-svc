@@ -68,7 +68,9 @@ def execute_queries(queries):
                 print(query)
                 log(1, 'Execute query', query, parameters)
                 result = connection.execute(query, parameters)
-                results.append(result.fetchall())
+                columns = [column[0] for column in result.description]
+                results.append([dict(zip(columns, row))
+                               for row in result.fetchall()])
     return results
 
 
@@ -139,4 +141,4 @@ def update_list_name_by_list_id(list_id, list_name):
     return execute_query(generate_update_query(USER_FAVORITES, values, f"list_id = :listId"), {'listId': list_id})
 
 # if __name__ == "__main__":
-#     print(delete_favorite_list_by_list_id(6))
+#     print(get_favorites_list_by_user_id(1))
