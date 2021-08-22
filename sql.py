@@ -49,6 +49,12 @@ def buildDataBase():
     execute_queries(queries)
 
 
+def delete_favorite_list_by_list_id(list_id):
+    condition = f"where list_id = :list_id"
+    parameters = {'list_id': list_id}
+    return execute_query(generate_delete_query(USER_FAVORITES, condition), parameters)
+
+
 def execute_query(query, parameters):
     return execute_queries([[query, parameters]])[0]
 
@@ -59,6 +65,7 @@ def execute_queries(queries):
         with connection:
             connection.execute("PRAGMA foreign_keys = 1")
             for query, parameters in queries:
+                print(query)
                 log(1, 'Execute query', query, parameters)
                 result = connection.execute(query, parameters)
                 results.append(result.fetchall())
@@ -81,6 +88,11 @@ def generate_create_query(name, fields):
         my_query = my_query + ',' + ','.join(foreigns)
     my_query += ")"
     return my_query
+
+
+def generate_delete_query(table_name, condition):
+    statement = f"DELETE FROM {table_name} {condition}"
+    return statement
 
 
 def generate_insert_query(table_name, values, columns=None):
@@ -127,5 +139,4 @@ def update_list_name_by_list_id(list_id, list_name):
     return execute_query(generate_update_query(USER_FAVORITES, values, f"list_id = :listId"), {'listId': list_id})
 
 # if __name__ == "__main__":
-#     update = generate_update_query(USER_FAVORITES, [('list_name', 'abc123')], 'LIST_ID = 2')
-#     print(update)
+#     print(delete_favorite_list_by_list_id(6))
