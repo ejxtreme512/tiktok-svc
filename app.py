@@ -1,4 +1,4 @@
-from sql import add_tiktok_to_favorites_list, add_user_favorites_list, add_user_to_users, get_favorite_list_items_by_list_id, get_favorites_list_by_user_id, update_list_name_by_list_id
+from sql import add_tiktok_to_favorites_list, add_user_favorites_list, add_user_to_users, delete_favorite_list_by_list_id, get_favorite_list_items_by_list_id, get_favorites_list_by_user_id, update_list_name_by_list_id
 from flask import Flask, jsonify
 from flask.helpers import send_file
 from flask import request
@@ -52,8 +52,7 @@ def add_favorites_list_item(id):
 
 @app.route('/favorites/list/<id>', methods=['DELETE'])
 def delete_favorites_list(id):
-    # return jsonify(delete_favorite_list_by_list_id(id))
-    pass
+    return jsonify(delete_favorite_list_by_list_id(id))
 
 
 @app.route('/info/<id>')
