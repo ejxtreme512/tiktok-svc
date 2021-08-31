@@ -68,9 +68,13 @@ def execute_queries(queries):
                 print(query)
                 log(1, 'Execute query', query, parameters)
                 result = connection.execute(query, parameters)
-                columns = [column[0] for column in result.description]
-                results.append([dict(zip(columns, row))
-                               for row in result.fetchall()])
+                if result.description: 
+                    columns = [column[0] for column in result.description]
+                    res = [dict(zip(columns, row))
+                               for row in result.fetchall()]
+                else:
+                    res = result.fetchall()
+                results.append(res)
     return results
 
 
