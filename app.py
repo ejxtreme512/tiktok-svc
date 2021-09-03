@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 from flask.helpers import send_file
 from flask import request
 from flask_cors import CORS
-from tokify import user_by_username, tiktok_by_id, tiktoks_by_user, tiktoks_by_trending, video_by_id
+from tokify import tiktoks_by_ids, user_by_username, tiktok_by_id, tiktoks_by_user, tiktoks_by_trending, video_by_id
 
 app = Flask(__name__)
 CORS(app)
@@ -43,7 +43,8 @@ def get_user_favorites_list(id):
 
 @app.route('/favorites/list/<id>', methods=['GET'])
 def get_favorites_list(id):
-    return jsonify(get_favorite_list_items_by_list_id(id))
+    favorite_ids = [item['tiktok_id'] for item in get_favorite_list_items_by_list_id(id)]
+    return jsonify(tiktoks_by_ids(favorite_ids))
 
 
 @app.route('/info/<id>')
