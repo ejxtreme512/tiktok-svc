@@ -19,7 +19,7 @@ def tiktoks_by_user(username, count=30):
 
 def tiktoks_by_trending(count=30):
     # Return a list of trending tiktoks
-    return api.trending(count=count)
+    return api.by_trending(count=count, custom_verifyFp=custom_verify_fp)
 
 
 def video_by_id(id):
